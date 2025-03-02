@@ -28,14 +28,19 @@ export class EmployeesService {
     return employee;
   }
 
-   async update(id: string, updateEmployeeDto: UpdateEmployeeDto) {
+  async update(id: string, updateEmployeeDto: UpdateEmployeeDto) {
     const employeeToUpdate = await this.employeeRespository.preload({
       employeeId: id,
       ...updateEmployeeDto
-    })
-     await this.employeeRespository.save(employeeToUpdate);
-    return employeeToUpdate;
+    });
+  
+    if (!employeeToUpdate) {
+      throw new NotFoundException(`Empleado con id ${id} no encontrado`);
+    }
+  
+    return this.employeeRespository.save(employeeToUpdate);
   }
+  
 
   remove(id: string) {
     this.employeeRespository.delete({

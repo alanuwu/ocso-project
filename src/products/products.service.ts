@@ -7,26 +7,22 @@ import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
 @Injectable()
 export class ProductsService {
-  private products:CreateProductDto[] = [
-    {
-      productId: uuid(),
-      productName: "Coca Cola 3L",
-      price: 60,
-      countSeal: 3,
-      provider: uuid()     
-    }
-  ]
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>
   ){}
   create(createProductDto: CreateProductDto) {
-    const product = this.productRepository.save(createProductDto)
+    const product = this.productRepository.save(createProductDto);
     return product;
   }
 
   findAll() {
-    return this.productRepository.find();
+    return this.productRepository.find({
+      loadEagerRelations: true,
+      relations: {
+        provider: true,
+      }
+    });
   }
 
   findOne(id: string) {
@@ -38,9 +34,7 @@ export class ProductsService {
   }
 
   findByProvider(id: string){
-    const productsFound = this.products.filter((product) => product.provider == id);
-    if(productsFound.length === 0) throw new NotFoundException();
-    return productsFound;
+    return 'OK';
   }
   async update(id: string, updateProductDto: UpdateProductDto) {
     const productToUpdate = await this.productRepository.preload({
