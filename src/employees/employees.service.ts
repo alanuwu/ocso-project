@@ -18,7 +18,7 @@ export class EmployeesService {
   }
 
   findAll() {
-    this.employeeRespository.find();
+    return this.employeeRespository.find();
   }
 
   findOne(id: string) {

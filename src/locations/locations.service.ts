@@ -3,10 +3,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { CreateDateColumn, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class LocationsService {
   constructor(
+    @InjectRepository(Location)
     private locationRepository: Repository<Location>
   ){}
   create(createLocationDto: CreateLocationDto) {
@@ -27,13 +29,16 @@ export class LocationsService {
 
   update(id: number, updateLocationDto: UpdateLocationDto) {
     const location = this.locationRepository.preload({
-      locationId: id,
+      locationId: id, 
       ...updateLocationDto,
     })
     return location;
   }
 
   remove(id: number) {
-    
+    return this.locationRepository.delete({
+      locationId: id,
+      
+    })
   }
 }
