@@ -35,9 +35,11 @@ export class ManagersService {
   return this.managerRepository.save(managerToUpdate);
   }
 
-  remove(id: string) {
-    return this.managerRepository.remove({
+  async remove(id: string) {
+    const managerToRemove = await this.managerRepository.findOneBy({
       managerId: id,
-    })
+    });
+    if(!managerToRemove) throw new NotFoundException("No Manager found");
+    return this.managerRepository.remove(managerToRemove);
   }
 }
