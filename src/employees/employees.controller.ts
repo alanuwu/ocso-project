@@ -5,11 +5,12 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {Auth} from "../auth/decorators/auth.decorator";
 import {ROLES} from "../auth/constants/roles.constants";
-import {ApiNotImplementedResponse, ApiResponse} from "@nestjs/swagger";
+import {ApiNotImplementedResponse, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Employee} from "./entities/employee.entity";
 import {ApiAuth} from "../auth/decorators/api.decorator";
 
 @ApiAuth()
+@ApiTags('Employees')
 
 @Controller('employees')
 export class EmployeesController {
