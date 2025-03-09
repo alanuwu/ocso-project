@@ -15,7 +15,7 @@ export class Employee {
     @Column('text', {
         unique: true,
     })
-    emplloyeeEmail: string;
+    employeeEmail: string;
     @Column({
         type: 'text',
          nullable: true

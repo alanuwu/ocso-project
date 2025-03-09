@@ -10,40 +10,50 @@ import { Employee } from './entities/employee.entity';
 export class EmployeesService {
   constructor(
     @InjectRepository(Employee)
-    private employeeRespository: Repository<Employee>
+    private employeeRepository: Repository<Employee>
   ){}
   async create(createEmployeeDto: CreateEmployeeDto) {
-    const employee = await this.employeeRespository.save(createEmployeeDto);
+    const employee = await this.employeeRepository.save(createEmployeeDto);
+    if(!employee) throw new NotFoundException();
     return employee;
   }
 
   findAll() {
-    return this.employeeRespository.find();
+    return this.employeeRepository.find();
+  }
+
+  findByLocation(id: number) {
+    return this.employeeRepository.findBy({
+      location: {
+        locationId: id
+      }
+    })
   }
 
   findOne(id: string) {
-    const employee =  this.employeeRespository.findOneBy({
+    const employee =  this.employeeRepository.findOneBy({
       employeeId: id
     })
+    if(!employee) throw new NotFoundException();
     return employee;
   }
 
   async update(id: string, updateEmployeeDto: UpdateEmployeeDto) {
-    const employeeToUpdate = await this.employeeRespository.preload({
+    const employeeToUpdate = await this.employeeRepository.preload({
+      ...updateEmployeeDto,
       employeeId: id,
-      ...updateEmployeeDto
     });
   
     if (!employeeToUpdate) {
       throw new NotFoundException(`Empleado con id ${id} no encontrado`);
     }
   
-    return this.employeeRespository.save(employeeToUpdate);
+    return this.employeeRepository.save(employeeToUpdate);
   }
   
 
   remove(id: string) {
-    this.employeeRespository.delete({
+    this.employeeRepository.delete({
       employeeId: id
     })
     return {
