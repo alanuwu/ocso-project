@@ -14,17 +14,20 @@ export class AuthService {
         @InjectRepository(User) private userRepository: Repository<User>,
         private jwtService: JwtService,
         ){}
-    registerUser(createUserDto: CreateUserDto) {
-        createUserDto.userPassword = bcrypt.hashSync(createUserDto.userPassword, 5);
+    async registerUser(createUserDto: CreateUserDto) {
+        createUserDto.userPassword = await bcrypt.hash(createUserDto.userPassword, 5);
         return this.userRepository.save(createUserDto);
+
     }
     async loginUser(loginUserDto: LoginUserDto) {
         const user = await this.userRepository.findOne({
         where:{
             userEmail: loginUserDto.userEmail,
         }
-        })
-        if(!user) throw new NotFoundException("User Not Found");
+        });
+        console.log("Usuario encontrado",user);
+        console.log("Resultado de no encontrar user: ", (!user))
+        if(!user) throw new UnauthorizedException("User Not Found");
         const match = await bcrypt.compare(
             loginUserDto.userPassword,
             user.userPassword,

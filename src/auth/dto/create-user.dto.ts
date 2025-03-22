@@ -2,7 +2,7 @@ import {IS_SEM_VER, IsEmail, IsIn, IsOptional, IsString, MinLength} from "class-
 import {User} from "../entities/user.entity";
 import {ApiProperty} from "@nestjs/swagger";
 
-export class CreateUserDto extends User{
+export class CreateUserDto{
     @ApiProperty({
         default: "user@gmail.com"
     })
