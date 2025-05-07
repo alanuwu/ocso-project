@@ -13,13 +13,13 @@ import {ApiTags} from "@nestjs/swagger";
 export class LocationsController {
   constructor(private readonly locationsService: LocationsService) {}
 
-  @Auth()
+  //@Auth(ROLES.MANAGER)
   @Post()
   create(@Body() createLocationDto: CreateLocationDto) {
     return this.locationsService.create(createLocationDto);
   }
 
-  // @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
+  @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
   @Get()
   findAll() {
     return this.locationsService.findAll();
@@ -37,7 +37,7 @@ export class LocationsController {
     return this.locationsService.update(+id, updateLocationDto);
   }
 
-  @Auth()
+  //@Auth(ROLES.MANAGER, ROLES.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.locationsService.remove(+id);

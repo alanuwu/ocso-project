@@ -21,10 +21,10 @@ export class RegionsService {
 
 
   findOne(id: string) {
-    const region= this.regionRepository.findOneBy({
+    const region = this.regionRepository.findOneBy({
       regionId: id,
     })
-    if(!region) throw new BadRequestException("No region found.");
+    if(!region) throw new NotFoundException("No region found.");
     return region;
   }
 

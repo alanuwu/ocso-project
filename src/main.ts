@@ -11,7 +11,7 @@ async function bootstrap() {
       credentials: true,
     }
   });
-
+console.log(process.env.allowedOrigins);
   app.use(cookieParser());
   const config = new DocumentBuilder()
       .setTitle('OCSO API')
@@ -26,6 +26,6 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
     transform: true
   }));
-  await app.listen(process.env.PORT ?? 4500);
+  await app.listen(4500);
 }
 bootstrap();

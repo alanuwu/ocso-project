@@ -1,21 +1,27 @@
-import {ArrayNotEmpty, IsAlpha, IsArray, IsObject, IsOptional, IsString, MaxLength} from "class-validator";
-import { Location } from "../entities/location.entity"
-import { isSharedArrayBuffer } from "util/types";
-import {Region} from "../../regions/entities/region.entity";
-export class CreateLocationDto{
-    @IsString()
-    @MaxLength(35)
-    locationName: string;
-    @IsString()
-    @MaxLength(160)
-    locationAddress: string;
-    @IsArray()
-    @ArrayNotEmpty()
-    locationId: number;
-    @IsArray()
-    @ArrayNotEmpty()
-    locationLatLng: number[];
-    @IsObject()
-    @IsOptional()
-    region: Region;
+import { Region } from "src/regions/entities/region.entity";
+import {Location} from "../entities/location.entity"
+
+import { ArrayNotEmpty, IsArray, IsObject, IsOptional, IsString, IsUUID, MaxLength } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
+
+export class CreateLocationDto {
+@ApiProperty()
+@IsString()
+@MaxLength(35)
+ locationName: string;
+ @ApiProperty()
+ @IsString()
+ @MaxLength(160)
+ locationAddress: string;
+ @ApiProperty()
+ @IsArray()
+ @ArrayNotEmpty()
+ locationLatLng: number[];
+ @ApiProperty()
+ @IsObject()
+ @IsOptional()
+ region : Region;
+ @IsUUID()
+ @IsOptional()
+ manager : string;
 }

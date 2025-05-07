@@ -18,7 +18,7 @@ export class ManagersController {
     return this.managersService.create(createManagerDto);
   }
 
-  @Auth()
+  @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
   @Get()
   findAll() {
     return this.managersService.findAll();

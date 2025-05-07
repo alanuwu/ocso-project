@@ -3,10 +3,12 @@ import {Manager} from "../../managers/entities/manager.entity";
 import { Region } from "../../regions/entities/region.entity";
 import {Employee} from "../../employees/entities/employee.entity";
 import {ApiProperty} from "@nestjs/swagger";
+import { Optional } from "@nestjs/common";
 
 @Entity()
 export class Location{
     @PrimaryGeneratedColumn('increment')
+    @Optional()
     locationId: number;
     @ApiProperty({
         default: "OCSO Juriquilla"
@@ -31,7 +33,7 @@ export class Location{
     @JoinColumn({
         name: 'managerId',
     })
-    manager: Manager;
+    manager: Manager | string;
 
     @ManyToOne(() => Region, (region) => region.locations)
     @JoinColumn({

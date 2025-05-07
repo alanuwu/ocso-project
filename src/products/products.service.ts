@@ -47,12 +47,12 @@ export class ProductsService {
     })
     if(!productToUpdate) throw new NotFoundException()
     this.productRepository.save(productToUpdate);
-    return productToUpdate
+    return productToUpdate;
   }
 
   remove(id: string) {
     this.findOne(id);
-    return this.productRepository.delete({
+    this.productRepository.delete({
       productId: id,
     })
     return {
